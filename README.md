@@ -14,3 +14,6 @@ Cloud Security Monitoring Project built with AWS and Python.
 - Event parsing
 - Threat detection rules 
 - Monitoring dashboard 
+
+## Current Status 
+Initial porject setup complete.
