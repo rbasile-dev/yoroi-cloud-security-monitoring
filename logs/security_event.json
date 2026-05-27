@@ -1,0 +1,7 @@
+{
+  "event_type": "failed_login",
+  "username": "admin",
+  "source_ip": "192.168.1.25",
+  "severity": "medium",
+  "timestamp": "2026-05-27T20:34:52.148663"
+}
