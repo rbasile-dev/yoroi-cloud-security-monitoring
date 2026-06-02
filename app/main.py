@@ -2,9 +2,25 @@ from datetime import datetime
 import json
 import os
 
+severity_rules = {
+    "successful_login": "LOW",
+    "failed_login": "MEDIUM",
+    "password_change": "MEDIUM",
+    "new_user_created": "HIGH",
+    "admin_access": "HIGH",
+    "account_locked": " MEDIUM",
+    "privilege_escalation": " HIGH",
+}
+
 events = [
     {
         "event_type": "failed_login",
+        "username": "admin",
+        "source_ip": "192.168.1.25",
+        "timestamp": datetime.utcnow().isoformat()
+    },
+    {
+        "event_type": "privilege_escalation",
         "username": "admin",
         "source_ip": "192.168.1.25",
         "timestamp": datetime.utcnow().isoformat()
@@ -40,6 +56,12 @@ events = [
         "timestamp": datetime.utcnow().isoformat()
     }
 ]
+
+for event in events:
+    event["severity"] = severity_rules.get(
+        event["event_type"],
+        "UNKNOWN"
+    )
 
 os.makedirs("logs", exist_ok=True)
 
