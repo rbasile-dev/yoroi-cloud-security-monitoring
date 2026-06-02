@@ -1,0 +1,51 @@
+[
+  {
+    "event_type": "failed_login",
+    "username": "admin",
+    "source_ip": "192.168.1.25",
+    "timestamp": "2026-06-02T21:24:50.343310",
+    "severity": "MEDIUM"
+  },
+  {
+    "event_type": "privilege_escalation",
+    "username": "admin",
+    "source_ip": "192.168.1.25",
+    "timestamp": "2026-06-02T21:24:50.343311",
+    "severity": "HIGH"
+  },
+  {
+    "event_type": "successful_login",
+    "username": "jsmith",
+    "source_ip": "192.168.1.30",
+    "timestamp": "2026-06-02T21:24:50.343312",
+    "severity": "LOW"
+  },
+  {
+    "event_type": "password_change",
+    "username": "admin",
+    "source_ip": "192.168.1.25",
+    "timestamp": "2026-06-02T21:24:50.343313",
+    "severity": "MEDIUM"
+  },
+  {
+    "event_type": "new_user_created",
+    "username": "security_admin",
+    "source_ip": "192.168.1.10",
+    "timestamp": "2026-06-02T21:24:50.343313",
+    "severity": "HIGH"
+  },
+  {
+    "event_type": "admin_access",
+    "username": "admin",
+    "source_ip": "192.168.1.25",
+    "timestamp": "2026-06-02T21:24:50.343314",
+    "severity": "HIGH"
+  },
+  {
+    "event_type": "account_locked",
+    "username": "jdoe",
+    "source_ip": "192.168.1.50",
+    "timestamp": "2026-06-02T21:24:50.343315",
+    "severity": "MEDIUM"
+  }
+]
