@@ -2,6 +2,9 @@ from datetime import datetime
 import json
 import os
 
+print("Yoroi Security Monitoring System")
+print("--------------------------------")
+
 severity_rules = {
     "successful_login": "LOW",
     "failed_login": "MEDIUM",
@@ -64,8 +67,11 @@ for event in events:
     )
 
 os.makedirs("logs", exist_ok=True)
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-with open("logs/security_event.json", "w") as file:
+filename = f"logs/security_events_{timestamp}.json"
+
+with open(filename, "w") as file:
     json.dump(events, file, indent=2)
 
-print(f"Saved {len(events)} security events.")
+print(f"Saved {len(events)} security events to {filename}")
