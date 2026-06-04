@@ -2,6 +2,17 @@ from datetime import datetime
 import json
 import os
 
+def count_log_files():
+    os.makedirs("logs", exist_ok=True)
+    files = os.listdir("logs")
+
+    print("\nPrevious Log Files")
+    print("--------------------")
+
+    for file in files:
+        print(file)
+
+    return len(files)
 
 severity_rules = {
     "successful_login": "LOW",
@@ -66,8 +77,6 @@ def add_severity(events):
             "UNKNOWN"
         )
 
-events = generate_events()
-add_severity(events)
 def analyze_events(events):
     high_count = 0
     medium_count = 0
@@ -76,8 +85,10 @@ def analyze_events(events):
     for event in events:
         if event["severity"] == "HIGH":
             high_count += 1
+
         elif event["severity"] == "MEDIUM":
             medium_count += 1
+
         elif event["severity"] == "LOW":
             low_count += 1
 
@@ -93,6 +104,43 @@ def save_events(events):
         json.dump(events, file, indent=2)
         
     return filename
+
+def analyze_historical_logs():
+    os.makedirs("logs", exist_ok=True)
+
+    total_events = 0
+    high_count = 0
+    medium_count = 0
+    low_count = 0
+
+    files = os.listdir("logs")
+
+    for filename in files:
+
+        if not filename.endswith(".json"):
+            continue
+
+        filepath = os.path.join("logs", filename)
+
+        with open(filepath, "r") as file:
+            events = json.load(file)
+
+        total_events += len(events)
+
+        for event in events:
+
+            if event.get("severity") == "HIGH":
+                high_count += 1
+
+            elif event.get("severity") == "MEDIUM":
+                medium_count += 1
+
+            elif event.get("severity") == "LOW":
+                low_count += 1
+
+    return total_events, high_count, medium_count, low_count
+
+
 
 def print_summary(events, high_count, medium_count, low_count, filename):
     print("Yoroi Security Monitoring System")
@@ -114,8 +162,25 @@ def print_summary(events, high_count, medium_count, low_count, filename):
     print(f"Saved {len(events)} security events to {filename}")
 
 def main():
+    log_count = count_log_files()
+
+    historical_total, historical_high, historical_medium, historical_low = analyze_historical_logs()
+
+    print()
+    print(f"Previous Log Files Found: {log_count}")
+
+    print()
+    print(f"Historical Analysis")
+    print("----------------------------------")
+    print(f"Total Events Recorded: {historical_total}")
+    print(f"Historical HIGH: {historical_high}")
+    print(f"Historical MEDIUM: {historical_medium}")
+    print(f"Historical LOW: {historical_low}")
+    print()
+
     events = generate_events()
     add_severity(events)
+
     high_count, medium_count, low_count = analyze_events(events)
     filename = save_events(events)
     print_summary(events, high_count, medium_count, low_count, filename)
