@@ -140,9 +140,35 @@ def analyze_historical_logs():
 
     return total_events, high_count, medium_count, low_count
 
+def detect_suspicious_activity(events):
+    detections = []
+
+    user_events = {}
+
+    for event in events:
+        username = event["username"]
+        event_type = event["event_type"]
+
+        if username not in user_events:
+            user_events[username] = []
+
+        user_events[username].append(event_type)
+
+    for username, event_types in user_events.items():
+        if (
+            "failed_login" in event_types
+            and "admin_access" in event_types
+            and "privilege_escalation" in event_types
+        ):
+            detections.append(
+                f"Suspicious admin activity detected for user: {username}"
+            )
+    
+    return detections
 
 
-def print_summary(events, high_count, medium_count, low_count, filename):
+
+def print_summary(events, high_count, medium_count, low_count, filename, detections):
     print("Yoroi Security Monitoring System")
     print("--------------------------------")
     print()
@@ -160,6 +186,14 @@ def print_summary(events, high_count, medium_count, low_count, filename):
     elif high_count > 0:
         print()
         print("WARNING: High severity events detected!")
+
+    if detections:
+        print()
+        print("Detections")
+        print("-----------")
+
+        for detection in detections:
+            print(f"DETECTION: {detection}")
 
     print()
     print(f"Log File: {filename}")
@@ -189,9 +223,11 @@ def main():
     events = generate_events()
     add_severity(events)
 
+    detections = detect_suspicious_activity(events)
+
     high_count, medium_count, low_count = analyze_events(events)
     filename = save_events(events)
-    print_summary(events, high_count, medium_count, low_count, filename)
+    print_summary(events, high_count, medium_count, low_count, filename, detections)
 
 if __name__ == "__main__":
     main()
