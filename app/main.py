@@ -182,6 +182,10 @@ def main():
     print(f"Historical LOW: {historical_low}")
     print()
 
+    if historical_high >= 20:
+        print("HISTORICAL ALERT: High severity activity is elevated.")
+        print()
+
     events = generate_events()
     add_severity(events)
 
