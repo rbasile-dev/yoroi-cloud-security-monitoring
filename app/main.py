@@ -153,7 +153,11 @@ def print_summary(events, high_count, medium_count, low_count, filename):
     print(f"Medium Severity: {medium_count}")
     print(f"Low Severity: {low_count}")
 
-    if high_count > 0:
+    if high_count >= 3:
+        print()
+        print("CRITICAL ALERT: Multiple high severity events detected!")
+
+    elif high_count > 0:
         print()
         print("WARNING: High severity events detected!")
 
